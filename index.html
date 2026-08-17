@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>A Debunk Theatre Production - 뮤지컬 미드나잇:액터뮤지션</title>
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { -webkit-text-size-adjust: 100%; word-break: keep-all; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+<body class="bg-slate-950 text-white min-h-screen">
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const Calendar = ({ className }) => (
+      <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <rect x="3" y="4" width="18" height="18" rx="2" ry="2" strokeWidth="2"></rect>
+        <line x1="16" y1="2" x2="16" y2="6" strokeWidth="2"></line>
+        <line x1="8" y1="2" x2="8" y2="6" strokeWidth="2"></line>
+        <line x1="3" y1="10" x2="21" y2="10" strokeWidth="2"></line>
+      </svg>
+    );
+
+    const ChevronDown = ({ className }) => (
+      <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <polyline points="6 9 12 15 18 9" strokeWidth="2"></polyline>
+      </svg>
+    );
+
+    const ChevronUp = ({ className }) => (
+      <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <polyline points="18 15 12 9 6 15" strokeWidth="2"></polyline>
+      </svg>
+    );
+
+    const MapPin = ({ className }) => (
+      <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" strokeWidth="2"></path>
+        <circle cx="12" cy="10" r="3" strokeWidth="2"></circle>
+      </svg>
+    );
+
+    const User = ({ className }) => (
+      <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" strokeWidth="2"></path>
+        <circle cx="12" cy="7" r="4" strokeWidth="2"></circle>
+      </svg>
+    );
+
+    const Calculator = ({ className }) => (
+      <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <rect x="4" y="2" width="16" height="20" rx="2" strokeWidth="2"></rect>
+        <line x1="8" y1="6" x2="16" y2="6" strokeWidth="2"></line>
+        <line x1="16" y1="14" x2="16" y2="18" strokeWidth="2"></line>
+        <path d="M8 10h.01M12 10h.01M16 10h.01M8 14h.01M12 14h.01M8 18h.01M12 18h.01" strokeWidth="2"></path>
+      </svg>
+    );
+
+    const Receipt = ({ className }) => (
+      <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1-2-1Z" strokeWidth="2"></path>
+        <path d="M8 7h8M8 11h8M8 15h5" strokeWidth="2"></path>
+      </svg>
+    );
+
+    const ExternalLink = ({ className }) => (
+      <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" strokeWidth="2"></path>
+        <polyline points="15 3 21 3 21 9" strokeWidth="2"></polyline>
+        <line x1="10" y1="14" x2="21" y2="3" strokeWidth="2"></line>
+      </svg>
+    );
+
+    const PARK_SEULGI_SCHEDULES = [
+      { id: 'aug-12-2000', date: '2026-08-12', day: '수', time: '20:00', visitor: '박슬기', man: '한재원', woman: '이상아', p1: '김솔', p2: '김소진', p3: '박영훈', p4: '신은규', pianist: '임지은', event: '첫공' },
+      { id: 'aug-13-2000', date: '2026-08-13', day: '목', time: '20:00', visitor: '박슬기', man: '김태형', woman: '서채이', p1: '양정현', p2: '정우림', p3: '강현동', p4: '김준', pianist: '전현우', event: '커튼콜 위크' },
+      { id: 'aug-17-1400', date: '2026-08-17', day: '월', time: '14:00', visitor: '박슬기', man: '김태형', woman: '박혜민', p1: '양정현', p2: '정우림', p3: '강현동', p4: '김준', pianist: '조재철', event: '커튼콜 위크' },
+      { id: 'aug-17-1800', date: '2026-08-17', day: '월', time: '18:00', visitor: '박슬기', man: '한재원', woman: '박혜민', p1: '양정현', p2: '정우림', p3: '강현동', p4: '김준', pianist: '조재철', event: '커튼콜 위크' },
+      { id: 'aug-20-2000', date: '2026-08-20', day: '목', time: '20:00', visitor: '박슬기', man: '김태형', woman: '이상아', p1: '김솔', p2: '정우림', p3: '박영훈', p4: '김준', pianist: '임지은', event: '쿠폰팩 증정' },
+      { id: 'aug-22-1500', date: '2026-08-22', day: '토', time: '15:00', visitor: '박슬기', man: '조현우', woman: '이상아', p1: '김솔', p2: '정우림', p3: '박영훈', p4: '김준', pianist: '전현우', event: '쿠폰팩 증정' },
+      { id: 'aug-22-1900', date: '2026-08-22', day: '토', time: '19:00', visitor: '박슬기', man: '한재원', woman: '이상아', p1: '김솔', p2: '정우림', p3: '박영훈', p4: '김준', pianist: '전현우', event: '쿠폰팩 증정' },
+      { id: 'aug-26-2000', date: '2026-08-26', day: '수', time: '20:00', visitor: '박슬기', man: '한재원', woman: '서채이', p1: '양정현', p2: '정우림', p3: '박영훈', p4: '김준', pianist: '임지은', event: '쿠폰팩 증정' },
+      { id: 'aug-30-1400', date: '2026-08-30', day: '일', time: '14:00', visitor: '박슬기', man: '한재원', woman: '박혜민', p1: '김솔', p2: '정우림', p3: '박영훈', p4: '김준', pianist: '전현우', event: '쿠폰팩 증정' },
+      { id: 'aug-30-1800', date: '2026-08-30', day: '일', time: '18:00', visitor: '박슬기', man: '김태형', woman: '박혜민', p1: '김솔', p2: '정우림', p3: '박영훈', p4: '김준', pianist: '전현우', event: '쿠폰팩 증정' },
+      { id: 'sep-01-2000', date: '2026-09-01', day: '화', time: '20:00', visitor: '박슬기', man: '조현우', woman: '이상아', p1: '양정현', p2: '김소진', p3: '박영훈', p4: '신은규', pianist: '전현우', event: null },
+      { id: 'sep-05-1500', date: '2026-09-05', day: '토', time: '15:00', visitor: '박슬기', man: '김태형', woman: '서채이', p1: '김솔', p2: '김소진', p3: '박영훈', p4: '신은규', pianist: '전현우', event: null },
+      { id: 'sep-05-1900', date: '2026-09-05', day: '토', time: '19:00', visitor: '박슬기', man: '한재원', woman: '이상아', p1: '김솔', p2: '김소진', p3: '박영훈', p4: '신은규', pianist: '전현우', event: null },
+      { id: 'sep-11-1930', date: '2026-09-11', day: '금', time: '19:30', visitor: '박슬기', man: '조현우', woman: '박혜민', p1: '김솔', p2: '정우림', p3: '박영훈', p4: '김준', pianist: '임지은', event: null },
+      { id: 'sep-13-1400', date: '2026-09-13', day: '일', time: '14:00', visitor: '박슬기', man: '조현우', woman: '서채이', p1: '김솔', p2: '정우림', p3: '박영훈', p4: '김준', pianist: '임지은', event: null },
+      { id: 'sep-13-1800', date: '2026-09-13', day: '일', time: '18:00', visitor: '박슬기', man: '김태형', woman: '박혜민', p1: '김솔', p2: '정우림', p3: '박영훈', p4: '김준', pianist: '임지은', event: null },
+      { id: 'sep-16-1600', date: '2026-09-16', day: '수', time: '16:00', visitor: '박슬기', man: '조현우', woman: '서채이', p1: '양정현', p2: '김소진', p3: '박영훈', p4: '김준', pianist: '조재철', event: null },
+      { id: 'sep-20-1400', date: '2026-09-20', day: '일', time: '14:00', visitor: '박슬기', man: '한재원', woman: '박혜민', p1: '양정현', p2: '김소진', p3: '박영훈', p4: '신은규', pianist: '전현우', event: null },
+      { id: 'sep-20-1800', date: '2026-09-20', day: '일', time: '18:00', visitor: '박슬기', man: '조현우', woman: '이상아', p1: '양정현', p2: '김소진', p3: '박영훈', p4: '신은규', pianist: '전현우', event: null },
+    ];
+
+    const DISCOUNT_TYPES = [
+      { name: '일반 (정가)', amount: 70000 },
+      { name: '재관람 할인 (30%)', amount: 49000 },
+      { name: '50% 할인쿠폰', amount: 35000 },
+      { name: '마티네 할인 30%', amount: 49000 },
+      { name: '청소년 할인 25%', amount: 52500 },
+      { name: '3인 패키지 25%', amount: 52500 },
+      { name: '직장인 할인 20%', amount: 56000 },
+      { name: '1+1 예매 쿠폰 50%', amount: 35000 },
+      { name: '40% 할인 쿠폰', amount: 42000 },
+      { name: '타임 세일 40%', amount: 42000 },
+      { name: '타임 세일 45%', amount: 38500 },
+      { name: '타임 세일 50%', amount: 35000 },
+      { name: '복지 할인 50%', amount: 35000 },
+      { name: '직접 입력', amount: 0, isCustom: true },
+    ];
+
+    const SEAT_LAYOUT = [
+      { row: 2, startNum: 1, total: 17, tlStart: 5, tlEnd: 13 },
+      { row: 3, startNum: 1, total: 18, tlStart: 5, tlEnd: 14 },
+      { row: 4, startNum: 1, total: 17, tlStart: 5, tlEnd: 13 },
+      { row: 5, startNum: 1, total: 18, tlStart: 5, tlEnd: 14 },
+      { row: 6, startNum: 1, total: 17, tlStart: 5, tlEnd: 14 },
+      { row: 7, startNum: 1, total: 18, tlStart: 5, tlEnd: 15 },
+      { row: 8, startNum: 1, total: 17, tlStart: 5, tlEnd: 13 },
+      { row: 9, startNum: 2, total: 16, tlStart: 0, tlEnd: -1 },
+      { row: 10, startNum: 1, total: 15, tlStart: 0, tlEnd: -1 },
+      { row: 11, startNum: 1, total: 15, tlStart: 0, tlEnd: -1 },
+      { row: 12, startNum: 1, total: 13, tlStart: 0, tlEnd: -1 },
+      { row: 13, startNum: 1, total: 12, tlStart: 0, tlEnd: -1 },
+      { row: 14, startNum: 1, total: 10, tlStart: 0, tlEnd: -1 },
+    ];
+
+    const CAST_DATA = {
+      visitor: { name: '박슬기', role: 'VISITOR', images: ['sk1.png', 'sk2.png'] },
+      man: [
+        { name: '김태형', role: 'MAN', image: 'man1.png' },
+        { name: '조현우', role: 'MAN', image: 'man2.png' },
+        { name: '한재원', role: 'MAN', image: 'man3.png' },
+      ],
+      woman: [
+        { name: '박혜민', role: 'WOMAN', image: 'woman1.png' },
+        { name: '서채이', role: 'WOMAN', image: 'woman2.png' },
+        { name: '이상아', role: 'WOMAN', image: 'woman3.png' },
+      ],
+      player1: [
+        { name: '김솔', role: 'PLAYER 1', image: 'p1.png' },
+        { name: '양정현', role: 'PLAYER 1', image: 'p2.png' },
+      ],
+      player2: [
+        { name: '김소진', role: 'PLAYER 2', image: 'p3.png' },
+        { name: '정우림', role: 'PLAYER 2', image: 'p4.png' },
+      ],
+      player3: [
+        { name: '강현동', role: 'PLAYER 3', image: 'p5.png' },
+        { name: '박영훈', role: 'PLAYER 3', image: 'p6.png' },
+      ],
+      player4: [
+        { name: '김준', role: 'PLAYER 4', image: 'p7.png' },
+        { name: '신은규', role: 'PLAYER 4', image: 'p8.png' },
+      ],
+      pianist: [
+        { name: '임지은', role: 'PIANIST', image: 'p9.png' },
+        { name: '전현우', role: 'PIANIST', image: 'p10.png' },
+        { name: '조재철', role: 'PIANIST', image: 'p11.png' },
+      ],
+    };
+
+    function ActorCard({ actor, isMain = false, userCount = 0 }) {
+      const [imgIndex, setImgIndex] = React.useState(0);
+
+      const handleClick = () => {
+        if (actor.images && actor.images.length > 1) {
+          setImgIndex((prev) => (prev + 1) % actor.images.length);
+        }
+      };
+
+      const currentImage = actor.images ? actor.images[imgIndex] : actor.image;
+
+      return (
+        <div 
+          onClick={handleClick}
+          className={`relative overflow-hidden rounded-xl border bg-slate-900/90 select-none transition ${
+            actor.images && actor.images.length > 1 ? 'cursor-pointer active:opacity-90' : ''
+          } ${isMain ? 'border-cyan-500 shadow-md shadow-cyan-950/40 w-48 mx-auto' : 'border-slate-800 w-full'}`}
+        >
+          <div className={`relative bg-slate-950/90 flex items-center justify-center overflow-hidden ${isMain ? 'h-40' : 'h-28'}`}>
+            {currentImage ? (
+              <img src={currentImage} alt={actor.name} className="w-full h-full object-contain object-center p-0.5" />
+            ) : (
+              <div className="flex flex-col items-center justify-center text-slate-600">
+                <User className={isMain ? 'w-8 h-8' : 'w-4 h-4'} />
+              </div>
+            )}
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent pointer-events-none"></div>
+          </div>
+          <div className="p-1.5 text-center space-y-0.5 relative -mt-2 bg-slate-900">
+            <span className="text-[8px] font-bold text-cyan-400 bg-slate-950 px-1.5 py-0.2 rounded-full border border-cyan-950 inline-block">
+              {actor.role}
+            </span>
+            <h3 className={`font-extrabold text-white ${isMain ? 'text-sm' : 'text-[11px]'}`}>{actor.name}</h3>
+            <p className="text-[8px] text-slate-400 font-medium">
+              관람 <span className="text-amber-400 font-bold">{userCount}</span>회
+            </p>
+          </div>
+        </div>
+      );
+    }
+
+    function App() {
+      const [isScheduleOpen, setIsScheduleOpen] = React.useState(false);
+      const [isRecordsOpen, setIsRecordsOpen] = React.useState(true);
+      const [selectedSchedule, setSelectedSchedule] = React.useState(null);
+      const [selectedSeat, setSelectedSeat] = React.useState(null);
+      const [selectedDiscount, setSelectedDiscount] = React.useState(DISCOUNT_TYPES[0]);
+      const [customAmount, setCustomAmount] = React.useState('');
+      const [selectedType, setSelectedType] = React.useState('-');
+      const [savedRecords, setSavedRecords] = React.useState([]);
+
+      const FEE = 2000;
+      
+      const ticketPrice = selectedDiscount.isCustom 
+        ? (Number(customAmount) || 0) 
+        : selectedDiscount.amount;
+
+      const finalPrice = ticketPrice + FEE;
+
+      const handleSeatClick = (row, num, vendor) => {
+        setSelectedSeat({ row, num, vendor });
+      };
+
+      const getSeatVisitCount = (row, num) => {
+        return savedRecords.filter(r => r.seat.row === row && r.seat.num === num && r.type !== '양도').length;
+      };
+
+      const handleSaveRecord = () => {
+        if (!selectedSchedule || !selectedSeat) return;
+
+        const discountData = selectedDiscount.isCustom
+          ? { name: `직접 입력 (${ticketPrice.toLocaleString()}원)`, amount: ticketPrice }
+          : selectedDiscount;
+
+        const newRecord = {
+          id: Date.now(),
+          schedule: selectedSchedule,
+          seat: selectedSeat,
+          discount: discountData,
+          totalPrice: finalPrice,
+          type: selectedType,
+        };
+
+        setSavedRecords([newRecord, ...savedRecords]);
+      };
+
+      const handleDeleteRecord = (id) => {
+        setSavedRecords(savedRecords.filter(r => r.id !== id));
+      };
+
+      const activeRecords = savedRecords.filter(r => r.type !== '양도');
+      const grandTotal = activeRecords.reduce((acc, cur) => acc + cur.totalPrice, 0);
+
+      const getActorCount = (actorName) => {
+        return activeRecords.filter(r => {
+          const s = r.schedule;
+          return s.visitor === actorName || s.man === actorName || s.woman === actorName ||
+                 s.p1 === actorName || s.p2 === actorName || s.p3 === actorName ||
+                 s.p4 === actorName || s.pianist === actorName;
+        }).length;
+      };
+
+      return (
+        <div className="max-w-[393px] mx-auto p-3 space-y-4">
+          {/* 타이틀 헤더 */}
+          <header className="text-center py-2 space-y-1 border-b border-slate-800">
+            <p className="text-[10px] tracking-widest text-slate-400 font-semibold uppercase">A Debunk Theatre Production</p>
+            <h1 className="text-base font-extrabold text-cyan-400">뮤지컬 미드나잇:액터뮤지션</h1>
+            <p className="text-[10px] text-slate-300 font-medium">박슬기 배우 기준 정산판</p>
+            <p className="text-[9px] text-slate-500 pt-0.5">문의 시 @hillpeakk 로 연락 주세요.</p>
+          </header>
+
+          {/* 1. 스케줄 */}
+          <section className="bg-slate-900 rounded-2xl border border-slate-800 overflow-hidden">
+            <button
+              onClick={() => setIsScheduleOpen(!isScheduleOpen)}
+              className="w-full p-2.5 flex justify-between items-center bg-slate-900"
+            >
+              <div className="flex items-center gap-1.5 text-xs font-bold text-cyan-400">
+                <Calendar className="w-3.5 h-3.5" />
+                <span>스케줄 (이벤트)</span>
+              </div>
+              <div className="flex items-center gap-1 text-[10px] text-slate-400">
+                <span>{isScheduleOpen ? '접기' : '펼치기'}</span>
+                {isScheduleOpen ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+              </div>
+            </button>
+
+            {isScheduleOpen && (
+              <div className="p-2 border-t border-slate-800 space-y-1.5 max-h-[260px] overflow-y-auto no-scrollbar bg-slate-950/50">
+                {PARK_SEULGI_SCHEDULES.map((item) => {
+                  const isSelected = selectedSchedule?.id === item.id;
+                  return (
+                    <div
+                      key={item.id}
+                      onClick={() => setSelectedSchedule(item)}
+                      className={`p-1.5 rounded-lg border cursor-pointer transition ${
+                        isSelected ? 'bg-cyan-950/80 border-cyan-500' : 'bg-slate-900/60 border-slate-800'
+                      }`}
+                    >
+                      <div className="flex justify-between items-center">
+                        <div className="flex items-center gap-1">
+                          <span className="font-bold text-[10px] text-white">
+                            {item.date.slice(5)} ({item.day}) {item.time}
+                          </span>
+                          {item.event && (
+                            <span className={`text-[7px] px-1 rounded font-bold ${
+                              item.event === '첫공' ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40' :
+                              item.event === '커튼콜 위크' ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40' : 'bg-purple-500/20 text-purple-300 border border-purple-500/40'
+                            }`}>
+                              {item.event}
+                            </span>
+                          )}
+                        </div>
+                        {isSelected && <span className="text-[8px] text-cyan-400 font-bold bg-cyan-950 px-1 rounded border border-cyan-800">선택됨</span>}
+                      </div>
+                      
+                      <div className="text-[8px] text-slate-400 bg-slate-950/80 p-1 rounded mt-1 border border-slate-800/80 flex flex-wrap gap-x-1.5 gap-y-0.5">
+                        <span>비지터 <strong className="text-cyan-300">{item.visitor}</strong></span>
+                        <span>맨 {item.man}</span>
+                        <span>우먼 {item.woman}</span>
+                        <span className="text-slate-500">| P1:{item.p1} P2:{item.p2} P3:{item.p3} P4:{item.p4} P:{item.pianist}</span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </section>
+
+          {/* 2. 좌석 배치도 */}
+          <section className="bg-slate-900 p-3 rounded-2xl border border-slate-800 space-y-2">
+            <div className="flex justify-between items-center">
+              <h2 className="text-xs font-bold flex items-center gap-1 text-cyan-400">
+                <MapPin className="w-3.5 h-3.5" /> 2. 좌석 배치도
+              </h2>
+              <div className="flex gap-2 text-[8px]">
+                <a href="https://nol.yanolja.com/ticket/products/26010167" target="_blank" rel="noreferrer" className="flex items-center gap-1 text-cyan-400 font-bold">
+                  <span className="w-2 h-2 rounded bg-cyan-400 inline-block"></span> 놀티켓 <ExternalLink className="w-2 h-2" />
+                </a>
+                <a href="https://www.ticketlink.co.kr/product/64370" target="_blank" rel="noreferrer" className="flex items-center gap-1 text-blue-400 font-bold">
+                  <span className="w-2 h-2 rounded bg-blue-600 inline-block"></span> 티켓링크 <ExternalLink className="w-2 h-2" />
+                </a>
+              </div>
+            </div>
+
+            <div className="flex justify-around items-center bg-slate-950 p-1.5 rounded-lg border border-slate-800 text-[8px]">
+              <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-[1px] bg-emerald-500 inline-block"></span> 1회 관람</span>
+              <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-[1px] bg-orange-500 inline-block"></span> 2회 관람</span>
+              <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-[1px] bg-purple-500 inline-block"></span> 3회 이상</span>
+            </div>
+
+            <div className="w-full bg-cyan-900/30 border border-cyan-500/30 text-cyan-300 text-center py-0.5 rounded text-[8px] font-bold tracking-widest">
+              S T A G E
+            </div>
+
+            <div className="space-y-0.5 py-1 overflow-x-auto text-center no-scrollbar">
+              {SEAT_LAYOUT.map((rowInfo) => (
+                <div key={rowInfo.row} className="flex justify-center items-center gap-0.5 text-[8px]">
+                  <span className="w-3 text-slate-500 font-bold">{rowInfo.row}</span>
+                  <div className="flex gap-0.5">
+                    {Array.from({ length: rowInfo.total }, (_, i) => rowInfo.startNum + i).map((num) => {
+                      const isTicketLink = num >= rowInfo.tlStart && num <= rowInfo.tlEnd;
+                      const vendor = isTicketLink ? '티켓링크' : '놀티켓';
+                      const isSelected = selectedSeat?.row === rowInfo.row && selectedSeat?.num === num;
+                      const visitCount = getSeatVisitCount(rowInfo.row, num);
+
+                      let colorClass = isTicketLink ? 'bg-blue-600/80 text-white' : 'bg-cyan-500/80 text-slate-950';
+                      if (visitCount === 1) {
+                        colorClass = 'bg-emerald-500 text-slate-950 font-bold';
+                      } else if (visitCount === 2) {
+                        colorClass = 'bg-orange-500 text-white font-bold';
+                      } else if (visitCount >= 3) {
+                        colorClass = 'bg-purple-500 text-white font-bold';
+                      }
+
+                      return (
+                        <button
+                          key={num}
+                          onClick={() => handleSeatClick(rowInfo.row, num, vendor)}
+                          className={`w-3.5 h-3.5 rounded-[1px] flex items-center justify-center font-semibold transition active:scale-95 relative ${
+                            isSelected ? 'ring-2 ring-amber-300 z-10 scale-110' : ''
+                          } ${colorClass}`}
+                        >
+                          {num}
+                        </button>
+                      );
+                    })}
+                  </div>
+                  <span className="w-3 text-slate-500 font-bold">{rowInfo.row}</span>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* 3. 예매 정보 및 정산 */}
+          <section className="bg-slate-900 p-3.5 rounded-2xl border border-slate-800 space-y-3">
+            <h2 className="text-xs font-bold flex items-center gap-1 text-cyan-400">
+              <Calculator className="w-3.5 h-3.5" /> 3. 예매 정보 및 정산
+            </h2>
+
+            <div className="space-y-2 text-[11px] bg-slate-950 p-3 rounded-xl border border-slate-800">
+              <div className="flex justify-between items-center border-b border-slate-800/80 pb-1.5">
+                <span className="text-slate-400">관람 일시</span>
+                <span className="font-bold text-white">
+                  {selectedSchedule ? `${selectedSchedule.date.slice(5)} (${selectedSchedule.day}) ${selectedSchedule.time}` : '스케줄 선택'}
+                </span>
+              </div>
+
+              <div className="flex justify-between items-center border-b border-slate-800/80 pb-1.5">
+                <span className="text-slate-400">선택 좌석</span>
+                <span className="font-bold text-cyan-300">
+                  {selectedSeat ? `${selectedSeat.row}열 ${selectedSeat.num}번 (${selectedSeat.vendor})` : '좌석 선택'}
+                </span>
+              </div>
+
+              <div className="space-y-1 border-b border-slate-800/80 pb-1.5">
+                <label className="text-slate-400 block text-[10px]">구분 탭 선택</label>
+                <div className="grid grid-cols-4 gap-1">
+                  {['-', '양도', '양수', '나눔'].map((t) => (
+                    <button
+                      key={t}
+                      onClick={() => setSelectedType(t)}
+                      className={`py-1 rounded text-[10px] font-bold border transition ${
+                        selectedType === t
+                          ? 'bg-cyan-500 text-slate-950 border-cyan-400'
+                          : 'bg-slate-900 text-slate-400 border-slate-800 hover:bg-slate-800'
+                      }`}
+                    >
+                      {t}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-slate-400 block text-[10px]">할인 권종 선택</label>
+                <select
+                  value={selectedDiscount.name}
+                  onChange={(e) => setSelectedDiscount(DISCOUNT_TYPES.find(d => d.name === e.target.value))}
+                  className="w-full bg-slate-900 border border-slate-700 text-white rounded-lg p-1.5 text-[10px] focus:outline-none focus:border-cyan-500"
+                >
+                  {DISCOUNT_TYPES.map((d) => (
+                    <option key={d.name} value={d.name}>
+                      {d.isCustom ? d.name : `${d.name} (${d.amount.toLocaleString()}원)`}
+                    </option>
+                  ))}
+                </select>
+
+                {/* 직접 입력 선택 시 나타나는 금액 입력 폼 */}
+                {selectedDiscount.isCustom && (
+                  <div className="flex items-center gap-1.5 pt-1">
+                    <input
+                      type="number"
+                      placeholder="할인 적용 티켓 금액 입력"
+                      value={customAmount}
+                      onChange={(e) => setCustomAmount(e.target.value)}
+                      className="w-full bg-slate-900 border border-cyan-500/80 text-amber-300 font-bold rounded-lg p-1.5 text-[10px] focus:outline-none"
+                    />
+                    <span className="text-[10px] text-slate-400 flex-shrink-0">원</span>
+                  </div>
+                )}
+              </div>
+
+              <div className="pt-2 border-t border-slate-800 flex justify-between items-center">
+                <div>
+                  <span className="text-slate-300 font-bold block">최종 결제액</span>
+                  <span className="text-[9px] text-slate-500">(수수료 2,000원 포함)</span>
+                </div>
+                <span className="text-base font-extrabold text-amber-400">
+                  {finalPrice.toLocaleString()}원
+                </span>
+              </div>
+
+              <button
+                onClick={handleSaveRecord}
+                disabled={!selectedSchedule || !selectedSeat}
+                className={`w-full mt-2 font-bold py-2 rounded-lg text-xs shadow-md transition ${
+                  selectedSchedule && selectedSeat
+                    ? 'bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white cursor-pointer active:scale-98'
+                    : 'bg-slate-800 text-slate-500 cursor-not-allowed'
+                }`}
+              >
+                정산 저장
+              </button>
+            </div>
+          </section>
+
+          {/* 4. 총 관극 정산 */}
+          <section className="bg-slate-900 rounded-2xl border border-slate-800 overflow-hidden">
+            <button
+              onClick={() => setIsRecordsOpen(!isRecordsOpen)}
+              className="w-full p-3 flex justify-between items-center bg-slate-900"
+            >
+              <div className="flex items-center gap-1.5 text-xs font-bold text-cyan-400">
+                <Receipt className="w-3.5 h-3.5" />
+                <span>4. 총 관극 정산 (누적 {activeRecords.length}회)</span>
+              </div>
+              <div className="flex items-center gap-1 text-[10px] text-slate-400">
+                <span>{isRecordsOpen ? '접기' : '펼치기'}</span>
+                {isRecordsOpen ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+              </div>
+            </button>
+
+            {isRecordsOpen && (
+              <div className="p-2.5 border-t border-slate-800 space-y-2 bg-slate-950/50">
+                {savedRecords.length === 0 ? (
+                  <p className="text-[10px] text-slate-500 text-center py-3">저장된 관극 정산 내역이 없습니다.</p>
+                ) : (
+                  <div className="space-y-1.5">
+                    <div className="space-y-1 max-h-[260px] overflow-y-auto no-scrollbar">
+                      {savedRecords.map((rec) => (
+                        <div
+                          key={rec.id}
+                          className={`p-1.5 rounded-lg border text-[10px] flex items-center justify-between gap-1 transition ${
+                            rec.type === '양도' ? 'bg-slate-950/40 border-slate-800 text-slate-500 line-through' : 'bg-slate-950 border-slate-800'
+                          }`}
+                        >
+                          <div className="flex items-center gap-1 overflow-hidden whitespace-nowrap text-[9.5px]">
+                            <span className="font-semibold text-slate-300">{rec.schedule.date.slice(5)}</span>
+                            <span className="text-slate-400">{rec.schedule.time}</span>
+                            <span className="text-slate-600">|</span>
+                            <span className="font-bold text-cyan-400">{rec.seat.row}열{rec.seat.num}번</span>
+                            <span className="text-slate-600">|</span>
+                            <span className="text-slate-400 truncate max-w-[70px]">{rec.discount.name}</span>
+                          </div>
+
+                          <div className="flex items-center gap-1 flex-shrink-0">
+                            {rec.type !== '-' && (
+                              <span className={`px-1 py-0.1 rounded text-[7.5px] font-bold ${
+                                rec.type === '양도' ? 'bg-rose-950 text-rose-400 border border-rose-900' : 'bg-cyan-950 text-cyan-400 border border-cyan-800'
+                              }`}>
+                                {rec.type}
+                              </span>
+                            )}
+                            <span className={`font-bold ${rec.type === '양도' ? 'text-slate-500' : 'text-amber-400'}`}>
+                              {rec.totalPrice.toLocaleString()}원
+                            </span>
+                            <button
+                              onClick={() => handleDeleteRecord(rec.id)}
+                              className="text-[8px] text-rose-400 hover:text-rose-300 border border-rose-900/50 bg-rose-950/40 px-1 py-0.1 rounded"
+                            >
+                              삭제
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="p-2 bg-cyan-950/40 border border-cyan-800/60 rounded-lg flex justify-between items-center text-xs">
+                      <span className="font-bold text-cyan-300">총 실질 관극 금액</span>
+                      <span className="font-extrabold text-amber-300 text-sm">{grandTotal.toLocaleString()}원</span>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+          </section>
+
+          {/* 5. 캐스트 보드 */}
+          <section className="space-y-3 pt-2 bg-slate-900 p-3 rounded-2xl border border-slate-800">
+            <div className="text-center">
+              <h2 className="text-xs font-bold text-white">CAST BOARD</h2>
+              <p className="text-[8px] text-slate-400">실관람 기준 누적 횟수</p>
+            </div>
+
+            <div>
+              <ActorCard actor={CAST_DATA.visitor} isMain={true} userCount={getActorCount(CAST_DATA.visitor.name)} />
+            </div>
+
+            <div className="space-y-1">
+              <h3 className="text-[8px] font-bold text-slate-400 uppercase tracking-wider border-b border-slate-800 pb-0.5">MAN</h3>
+              <div className="grid grid-cols-3 gap-1.5">
+                {CAST_DATA.man.map((actor) => (
+                  <ActorCard key={actor.name} actor={actor} userCount={getActorCount(actor.name)} />
+                ))}
+              </div>
+            </div>
+
+            <div className="space-y-1">
+              <h3 className="text-[8px] font-bold text-slate-400 uppercase tracking-wider border-b border-slate-800 pb-0.5">WOMAN</h3>
+              <div className="grid grid-cols-3 gap-1.5">
+                {CAST_DATA.woman.map((actor) => (
+                  <ActorCard key={actor.name} actor={actor} userCount={getActorCount(actor.name)} />
+                ))}
+              </div>
+            </div>
+
+            <div className="space-y-1">
+              <h3 className="text-[8px] font-bold text-slate-400 uppercase tracking-wider border-b border-slate-800 pb-0.5">PLAYERS</h3>
+              
+              <div className="space-y-2">
+                <div>
+                  <span className="text-[7px] text-cyan-400 font-bold block mb-0.5">PLAYER 1</span>
+                  <div className="grid grid-cols-2 gap-1.5">
+                    {CAST_DATA.player1.map((actor) => (
+                      <ActorCard key={actor.name} actor={actor} userCount={getActorCount(actor.name)} />
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <span className="text-[7px] text-cyan-400 font-bold block mb-0.5">PLAYER 2</span>
+                  <div className="grid grid-cols-2 gap-1.5">
+                    {CAST_DATA.player2.map((actor) => (
+                      <ActorCard key={actor.name} actor={actor} userCount={getActorCount(actor.name)} />
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <span className="text-[7px] text-cyan-400 font-bold block mb-0.5">PLAYER 3</span>
+                  <div className="grid grid-cols-2 gap-1.5">
+                    {CAST_DATA.player3.map((actor) => (
+                      <ActorCard key={actor.name} actor={actor} userCount={getActorCount(actor.name)} />
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <span className="text-[7px] text-cyan-400 font-bold block mb-0.5">PLAYER 4</span>
+                  <div className="grid grid-cols-2 gap-1.5">
+                    {CAST_DATA.player4.map((actor) => (
+                      <ActorCard key={actor.name} actor={actor} userCount={getActorCount(actor.name)} />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-1">
+              <h3 className="text-[8px] font-bold text-slate-400 uppercase tracking-wider border-b border-slate-800 pb-0.5">PIANIST</h3>
+              <div className="grid grid-cols-3 gap-1.5">
+                {CAST_DATA.pianist.map((actor) => (
+                  <ActorCard key={actor.name} actor={actor} userCount={getActorCount(actor.name)} />
+                ))}
+              </div>
+            </div>
+          </section>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>
