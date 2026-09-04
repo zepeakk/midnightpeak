@@ -497,8 +497,9 @@
         </div>
       );
     }
-    const root = ReactDOM.createRoot(document.getElementById('root'));
-    root.render(<App />);
+
+    // React 17/CDN 호환용 렌더링 함수 사용
+    ReactDOM.render(<App />, document.getElementById('root'));
   </script>
 </body>
 </html>
