@@ -30,7 +30,7 @@
 </head>
 <body class="bg-slate-950 text-white min-h-screen relative overflow-x-hidden">
 
-  <!-- [배경 요소] 와인🍷, LP💿, 넥타이👔, 기타🎸, 피아노건반🎹, 식빵🍞 모티브 아트워크 (음표 제거됨) -->
+  <!-- [배경 요소] 와인🍷, LP💿, 넥타이👔, 기타🎸, 피아노건반🎹, 식빵🍞 모티브 아트워크 -->
   <div class="fixed inset-0 pointer-events-none z-0 opacity-40 overflow-hidden flex justify-center items-center">
     <svg class="w-full h-full" viewBox="0 0 1000 1250" preserveAspectRatio="xMidYMid slice" fill="none" stroke="currentColor" strokeWidth="1.2">
       <!-- 🎸 기타 모티브 -->
@@ -120,43 +120,51 @@
       { id: 'oct-11-1800', date: '2026-10-11', day: '일', time: '18:00', visitor: '박슬기', man: '김태형', woman: '박혜민', p1: '김솔', p2: '정우림', p3: '박영훈', p4: '김준', pianist: '임지은', event: '막공' },
     ];
 
-    const PAIR_PHOTOS = PARK_SEULGI_SCHEDULES.map((s, idx) => {
-      let customImg = null;
-      let customUrl = null;
+    const PAIR_PHOTOS = [
+      ...PARK_SEULGI_SCHEDULES.map((s, idx) => {
+        let customImg = null;
+        let customUrl = null;
 
-      if (s.date === '2026-08-12') { customImg = '2026-08-12.jpeg'; customUrl = 'https://x.com/midnight_m2017/status/2087490364882170076?s=46'; }
-      else if (s.date === '2026-08-13') { customImg = '2026-08-13.jpeg'; customUrl = 'https://x.com/midnight_m2017/status/2087853665726152818?s=46'; }
-      else if (s.date === '2026-08-17' && s.time === '14:00') { customImg = '2026-08-171.jpg'; customUrl = 'https://x.com/midnight_m2017/status/2089213029938540563?s=46'; }
-      else if (s.date === '2026-08-17' && s.time === '18:00') { customImg = '2026-08-172.jpg'; customUrl = 'https://x.com/midnight_m2017/status/2089213029938540563?s=46'; }
-      else if (s.date === '2026-08-20') { customImg = '2026-08-20.jpeg'; customUrl = 'https://x.com/midnight_m2017/status/2090390089042141228?s=46'; }
-      else if (s.date === '2026-08-22' && s.time === '15:00') { customImg = '2026-08-221.jpeg'; customUrl = 'https://x.com/midnight_m2017/status/2091039291019509892?s=46'; }
-      else if (s.date === '2026-08-22' && s.time === '19:00') { customImg = '2026-08-222.jpeg'; customUrl = 'https://x.com/midnight_m2017/status/2091099945306853498?s=46'; }
-      else if (s.date === '2026-08-26') { customImg = '2026-08-26.jpeg'; customUrl = 'https://x.com/midnight_m2017/status/2092565657477058700?s=46'; }
-      else if (s.date === '2026-08-30' && s.time === '14:00') { customImg = '2026-08-301.jpeg'; customUrl = 'https://x.com/midnight_m2017/status/2093923365232984285?s=46'; }
-      else if (s.date === '2026-08-30' && s.time === '18:00') { customImg = '2026-08-302.jpeg'; customUrl = 'https://x.com/midnight_m2017/status/2093985125893845046?s=46'; }
-      else if (s.date === '2026-09-01') { customImg = '2026-09-01.jpeg'; customUrl = 'https://x.com/midnight_m2017/status/2094738904750739635?s=46'; }
-      else if (s.date === '2026-09-05' && s.time === '15:00') { customImg = '2026-09-05.jpg'; customUrl = 'https://x.com/Midnight_M2017/status/2096114971482771790?s=46'; }
-      else if (s.date === '2026-09-05' && s.time === '19:00') { customImg = '2026-09-052.jpg'; customUrl = 'https://x.com/Midnight_M2017/status/2096172864596844931?s=46'; }
-      else if (s.date === '2026-09-11') { customImg = '2026-09-11.jpeg'; customUrl = 'https://x.com/midnight_m2017/status/2098355334142369867?s=46'; }
-      else if (s.date === '2026-09-13' && s.time === '14:00') { customImg = '2026-09-131.jpeg'; customUrl = 'https://x.com/midnight_m2017/status/2098996225005769075?s=46'; }
-      else if (s.date === '2026-09-13' && s.time === '18:00') { customImg = '2026-09-132.jpeg'; customUrl = 'https://x.com/midnight_m2017/status/2099056735906640336?s=46'; }
-      else if (s.date === '2026-09-16') { customImg = '2026-09-16.jpeg'; customUrl = 'https://x.com/Midnight_M2017/status/2100114511168762019'; }
-      else if (s.date === '2026-09-20' && s.time === '14:00') { customImg = '2026-09-201.jpeg'; customUrl = 'https://x.com/midnight_m2017/status/2101534359371313551?s=46'; }
-      else if (s.date === '2026-09-20' && s.time === '18:00') { customImg = '2026-09-202.jpeg'; customUrl = 'https://x.com/midnight_m2017/status/2101594282176225739?s=46'; }
-      else if (s.date === '2026-09-22') { customImg = '2026-09-22.jpeg'; customUrl = 'https://x.com/midnight_m2017/status/2102324902133829910?s=46'; }
-      else if (s.date === '2026-09-26' && s.time === '14:00') { customImg = '2026-09-261.jpeg'; customUrl = 'https://x.com/midnight_m2017/status/2103708609888809470?s=46'; }
-      else if (s.date === '2026-09-26' && s.time === '18:00') { customImg = '2026-09-262.jpeg'; customUrl = 'https://x.com/midnight_m2017/status/2103768671860703299?s=46'; }
-      else if (s.date === '2026-09-29') { customImg = '2026-09-29.jpeg'; customUrl = 'https://x.com/midnight_m2017/status/2103768671860703299?s=46'; }
-      else if (s.date === '2026-10-04' && s.time === '14:00') { customImg = '2026-10-041.jpeg'; customUrl = 'https://x.com/midnight_m2017/status/2106606260577849742?s=46'; }
-      else if (s.date === '2026-10-04' && s.time === '18:00') { customImg = '2026-10-042.jpeg'; customUrl = 'https://x.com/midnight_m2017/status/2106667079587992040?s=46'; }
+        if (s.date === '2026-08-12') { customImg = '2026-08-12.jpeg'; customUrl = 'https://x.com/midnight_m2017/status/2087490364882170076?s=46'; }
+        else if (s.date === '2026-08-13') { customImg = '2026-08-13.jpeg'; customUrl = 'https://x.com/midnight_m2017/status/2087853665726152818?s=46'; }
+        else if (s.date === '2026-08-17' && s.time === '14:00') { customImg = '2026-08-171.jpg'; customUrl = 'https://x.com/midnight_m2017/status/2089213029938540563?s=46'; }
+        else if (s.date === '2026-08-17' && s.time === '18:00') { customImg = '2026-08-172.jpg'; customUrl = 'https://x.com/midnight_m2017/status/2089213029938540563?s=46'; }
+        else if (s.date === '2026-08-20') { customImg = '2026-08-20.jpeg'; customUrl = 'https://x.com/midnight_m2017/status/2090390089042141228?s=46'; }
+        else if (s.date === '2026-08-22' && s.time === '15:00') { customImg = '2026-08-221.jpeg'; customUrl = 'https://x.com/midnight_m2017/status/2091039291019509892?s=46'; }
+        else if (s.date === '2026-08-22' && s.time === '19:00') { customImg = '2026-08-222.jpeg'; customUrl = 'https://x.com/midnight_m2017/status/2091099945306853498?s=46'; }
+        else if (s.date === '2026-08-26') { customImg = '2026-08-26.jpeg'; customUrl = 'https://x.com/midnight_m2017/status/2092565657477058700?s=46'; }
+        else if (s.date === '2026-08-30' && s.time === '14:00') { customImg = '2026-08-301.jpeg'; customUrl = 'https://x.com/midnight_m2017/status/2093923365232984285?s=46'; }
+        else if (s.date === '2026-08-30' && s.time === '18:00') { customImg = '2026-08-302.jpeg'; customUrl = 'https://x.com/midnight_m2017/status/2093985125893845046?s=46'; }
+        else if (s.date === '2026-09-01') { customImg = '2026-09-01.jpeg'; customUrl = 'https://x.com/midnight_m2017/status/2094738904750739635?s=46'; }
+        else if (s.date === '2026-09-05' && s.time === '15:00') { customImg = '2026-09-05.jpg'; customUrl = 'https://x.com/Midnight_M2017/status/2096114971482771790?s=46'; }
+        else if (s.date === '2026-09-05' && s.time === '19:00') { customImg = '2026-09-052.jpg'; customUrl = 'https://x.com/Midnight_M2017/status/2096172864596844931?s=46'; }
+        else if (s.date === '2026-09-11') { customImg = '2026-09-11.jpeg'; customUrl = 'https://x.com/midnight_m2017/status/2098355334142369867?s=46'; }
+        else if (s.date === '2026-09-13' && s.time === '14:00') { customImg = '2026-09-131.jpeg'; customUrl = 'https://x.com/midnight_m2017/status/2098996225005769075?s=46'; }
+        else if (s.date === '2026-09-13' && s.time === '18:00') { customImg = '2026-09-132.jpeg'; customUrl = 'https://x.com/midnight_m2017/status/2099056735906640336?s=46'; }
+        else if (s.date === '2026-09-16') { customImg = '2026-09-16.jpeg'; customUrl = 'https://x.com/Midnight_M2017/status/2100114511168762019'; }
+        else if (s.date === '2026-09-20' && s.time === '14:00') { customImg = '2026-09-201.jpeg'; customUrl = 'https://x.com/midnight_m2017/status/2101534359371313551?s=46'; }
+        else if (s.date === '2026-09-20' && s.time === '18:00') { customImg = '2026-09-202.jpeg'; customUrl = 'https://x.com/midnight_m2017/status/2101594282176225739?s=46'; }
+        else if (s.date === '2026-09-22') { customImg = '2026-09-22.jpeg'; customUrl = 'https://x.com/midnight_m2017/status/2102349538904474055?s=46'; }
+        else if (s.date === '2026-09-26' && s.time === '14:00') { customImg = '2026-09-261.jpeg'; customUrl = 'https://x.com/midnight_m2017/status/2103708609888809470?s=46'; }
+        else if (s.date === '2026-09-26' && s.time === '18:00') { customImg = '2026-09-262.jpeg'; customUrl = 'https://x.com/midnight_m2017/status/2103768671860703299?s=46'; }
+        else if (s.date === '2026-09-29') { customImg = '2026-09-29.jpeg'; customUrl = 'https://x.com/Midnight_M2017/status/2104885584091373701?s=20'; }
+        else if (s.date === '2026-10-04' && s.time === '14:00') { customImg = '2026-10-041.jpeg'; customUrl = 'https://x.com/midnight_m2017/status/2106606260577849742?s=46'; }
+        else if (s.date === '2026-10-04' && s.time === '18:00') { customImg = '2026-10-042.jpeg'; customUrl = 'https://x.com/midnight_m2017/status/2106667079587992040?s=46'; }
 
-      return {
-        id: idx + 1,
-        date: `${s.date} (${s.time})`,
-        image: customImg,
-        url: customUrl
-      };
-    });
+        return {
+          id: idx + 1,
+          date: `${s.date} (${s.time})`,
+          image: customImg,
+          url: customUrl
+        };
+      }),
+      {
+        id: PARK_SEULGI_SCHEDULES.length + 1,
+        date: '디어 각하 마테 영상',
+        image: '디각마테.jpeg',
+        url: 'https://x.com/Midnight_M2017/status/2102963739498574328?s=20'
+      }
+    ];
 
     const DISCOUNT_TYPES = [
       { name: '일반 (정가)', amount: 70000 },
@@ -801,7 +809,7 @@
           <div className="fixed pointer-events-none -z-50 opacity-0 overflow-hidden" style={{ top: 0, left: 0 }}>
             <div ref={captureRef} className="w-[1000px] h-[1250px] bg-slate-950 text-white p-8 flex flex-col justify-between font-serif relative overflow-hidden">
               
-              {/* 배경 아트워크 SVG (음표 제거됨) */}
+              {/* 배경 아트워크 SVG */}
               <div className="absolute inset-0 pointer-events-none z-0 opacity-40 overflow-hidden flex justify-center items-center">
                 <svg className="w-full h-full" viewBox="0 0 1000 1250" preserveAspectRatio="xMidYMid slice" fill="none" stroke="currentColor" strokeWidth="1.2">
                   <g stroke="#06b6d4" opacity="0.5">
