@@ -17,11 +17,6 @@
   <style>
     body, html {
       font-family: 'Noto Serif KR', serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-      -webkit-touch-callout: none;
       -webkit-text-size-adjust: 100%;
       word-break: keep-all;
     }
@@ -29,27 +24,19 @@
       font-family: 'Noto Serif KR', serif;
       font-weight: 700;
     }
-    img {
-      -webkit-user-drag: none;
-      user-drag: none;
-      pointer-events: none;
-    }
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
   </style>
 </head>
-<body class="bg-slate-950 text-white min-h-screen relative overflow-x-hidden" oncontextmenu="return false;" onselectstart="return false;" ondragstart="return false;">
+<body class="bg-slate-950 text-white min-h-screen relative overflow-x-hidden">
 
   <!-- [배경 요소] ♪(단음표 실선), 와인🍷, LP💿, 넥타이👔, 기타🎸, 피아노건반🎹, 식빵🍞 모티브 아트워크 -->
   <div class="fixed inset-0 pointer-events-none z-0 opacity-40 overflow-hidden flex justify-center items-center">
     <svg class="w-full h-full" viewBox="0 0 1000 1250" preserveAspectRatio="xMidYMid slice" fill="none" stroke="currentColor" strokeWidth="1.2">
       <!-- ♪ 단음표 (실선) -->
       <g stroke="#06b6d4" opacity="0.6">
-        <!-- 상단 좌측 ♪ -->
         <path d="M110 180 A14 14 0 1 1 85 205 L85 120 L135 105 L135 130 L85 145" strokeWidth="1.5" />
-        <!-- 상단 우측 ♪ -->
         <path d="M840 220 A14 14 0 1 1 815 245 L815 160 L865 145 L865 170 L815 185" strokeWidth="1.5" />
-        <!-- 중앙 하단 ♪ -->
         <path d="M680 950 A14 14 0 1 1 655 975 L655 890 L705 875 L705 900 L655 915" strokeWidth="1.5" opacity="0.7" />
       </g>
       <!-- 🎸 기타 모티브 -->
@@ -523,12 +510,16 @@
         html2canvas(captureRef.current, {
           scale: 2,
           backgroundColor: '#020617',
-          useCORS: true
+          useCORS: true,
+          allowTaint: true
         }).then((canvas) => {
           const link = document.createElement('a');
           link.download = `미드나잇_정산판_${new Date().toISOString().slice(0, 10)}.png`;
           link.href = canvas.toDataURL('image/png');
           link.click();
+        }).catch(err => {
+          console.error("이미지 저장 실패:", err);
+          alert("이미지 저장 중 오류가 발생했습니다.");
         });
       };
 
@@ -760,10 +751,10 @@
           </section>
 
           {/* ===== 📸 정산판 저장 전용 레이아웃 캡처 영역 (1000px x 1250px) ===== */}
-          <div className="fixed top-[-9999px] left-[-9999px]">
+          <div className="fixed pointer-events-none -z-50 opacity-0 overflow-hidden" style={{ top: 0, left: 0 }}>
             <div ref={captureRef} className="w-[1000px] h-[1250px] bg-slate-950 text-white p-8 flex flex-col justify-between font-serif relative overflow-hidden">
               
-              {/* 배경 아트워크 SVG (♪ 단음표 + 와인 + 기타 + 건반 + 넥타이 + LP + 식빵) */}
+              {/* 배경 아트워크 SVG */}
               <div className="absolute inset-0 pointer-events-none z-0 opacity-40 overflow-hidden flex justify-center items-center">
                 <svg className="w-full h-full" viewBox="0 0 1000 1250" preserveAspectRatio="xMidYMid slice" fill="none" stroke="currentColor" strokeWidth="1.2">
                   <g stroke="#06b6d4" opacity="0.6">
@@ -812,7 +803,7 @@
                 {/* [좌측 캐스트 영역] */}
                 <div className="w-[580px] flex flex-col justify-between py-1">
                   
-                  {/* 1. 비지터 (이름과 횟수를 단 1회만 통합 표기) */}
+                  {/* 1. 비지터 */}
                   <div className="flex items-center gap-3">
                     <div className="w-16 flex-shrink-0 text-left pl-1 border-l-2 border-cyan-400 py-1">
                       <span className="text-[12px] font-bold text-cyan-300 tracking-wider block">VISITOR</span>
@@ -851,7 +842,7 @@
                     </div>
                   </div>
 
-                  {/* 4. 플레이어 1, 2 (첫 번째 줄) */}
+                  {/* 4. 플레이어 1, 2 */}
                   <div className="flex items-center gap-3">
                     <div className="w-16 flex-shrink-0 text-left pl-1 border-l-2 border-cyan-400 py-1">
                       <span className="text-[12px] font-bold text-cyan-300 tracking-wider block">PLAYERS</span>
@@ -862,7 +853,7 @@
                     </div>
                   </div>
 
-                  {/* 5. 플레이어 3, 4 (두 번째 줄 - 피아니스트와 정확히 수평) */}
+                  {/* 5. 플레이어 3, 4 */}
                   <div className="flex items-center gap-3 pl-[76px]">
                     <div className="flex gap-2.5">
                       {CAST_DATA.player3.map(a => <ActorCard actor={a} key={a.name} mini={true} totalScheduleCount={getActorTotalScheduleCount(a.name)} userCount={getActorUserCount(a.name)}/>)}
@@ -872,10 +863,10 @@
 
                 </div>
 
-                {/* [우측 영역] 공연정보 -> 관극횟수 -> 좌석배치도 -> 피아니스트 (좌측 플레이어 두번째 줄과 수평 고정) */}
+                {/* [우측 영역] */}
                 <div className="flex-1 flex flex-col justify-between py-1">
                   
-                  {/* 상단 타이틀 및 공연 정보 (크기 확장 및 좌측 스냅 정렬) */}
+                  {/* 상단 타이틀 및 공연 정보 */}
                   <div className="space-y-1.5 pt-1 text-left">
                     <img src="rogo.png" alt="logo" className="w-64 h-auto mb-2 object-contain justify-start" />
                     <h1 className="text-xl font-black text-cyan-400 tracking-wider">MUSICAL MIDNIGHT</h1>
@@ -928,7 +919,7 @@
                     </div>
                   </div>
 
-                  {/* 6. 피아니스트 섹션 (좌측 PLAYERS 두 번째 줄인 플레이어 3,4와 완벽하게 수평 위치 지정) */}
+                  {/* 6. 피아니스트 섹션 */}
                   <div className="flex items-center gap-2">
                     <div className="w-14 flex-shrink-0 text-left pl-1 border-l-2 border-cyan-400 py-0.5">
                       <span className="text-[10.5px] font-bold text-cyan-300 tracking-wider block">PIANIST</span>
