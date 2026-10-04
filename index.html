@@ -30,15 +30,9 @@
 </head>
 <body class="bg-slate-950 text-white min-h-screen relative overflow-x-hidden">
 
-  <!-- [배경 요소] ♪(단음표 실선), 와인🍷, LP💿, 넥타이👔, 기타🎸, 피아노건반🎹, 식빵🍞 모티브 아트워크 -->
+  <!-- [배경 요소] 와인🍷, LP💿, 넥타이👔, 기타🎸, 피아노건반🎹, 식빵🍞 모티브 아트워크 (음표 제거됨) -->
   <div class="fixed inset-0 pointer-events-none z-0 opacity-40 overflow-hidden flex justify-center items-center">
     <svg class="w-full h-full" viewBox="0 0 1000 1250" preserveAspectRatio="xMidYMid slice" fill="none" stroke="currentColor" strokeWidth="1.2">
-      <!-- ♪ 단음표 (실선) -->
-      <g stroke="#06b6d4" opacity="0.6">
-        <path d="M110 180 A14 14 0 1 1 85 205 L85 120 L135 105 L135 130 L85 145" strokeWidth="1.5" />
-        <path d="M840 220 A14 14 0 1 1 815 245 L815 160 L865 145 L865 170 L815 185" strokeWidth="1.5" />
-        <path d="M680 950 A14 14 0 1 1 655 975 L655 890 L705 875 L705 900 L655 915" strokeWidth="1.5" opacity="0.7" />
-      </g>
       <!-- 🎸 기타 모티브 -->
       <g stroke="#06b6d4" opacity="0.5">
         <path d="M180 850 L260 770 M195 835 C170 820 150 840 140 870 C130 900 150 930 180 930 C210 930 230 900 220 870 C210 840 210 850 195 835 Z" />
@@ -449,6 +443,7 @@
       const [selectedDiscount, setSelectedDiscount] = React.useState(DISCOUNT_TYPES[0]);
       const [customAmount, setCustomAmount] = React.useState('');
       const [selectedType, setSelectedType] = React.useState('-');
+      const [isSaving, setIsSaving] = React.useState(false);
       
       const captureRef = React.useRef(null);
 
@@ -505,21 +500,73 @@
         return scheduleDateTime < new Date();
       };
 
+      // 📱 아이폰16 및 모바일 Safari 이미지 저장 처리 개선 함수
       const handleDownloadCard = () => {
-        if (!captureRef.current) return;
+        if (!captureRef.current || isSaving) return;
+        setIsSaving(true);
+
         html2canvas(captureRef.current, {
           scale: 2,
           backgroundColor: '#020617',
           useCORS: true,
           allowTaint: true
         }).then((canvas) => {
-          const link = document.createElement('a');
-          link.download = `미드나잇_정산판_${new Date().toISOString().slice(0, 10)}.png`;
-          link.href = canvas.toDataURL('image/png');
-          link.click();
+          canvas.toBlob((blob) => {
+            if (!blob) {
+              alert("이미지 생성에 실패했습니다.");
+              setIsSaving(false);
+              return;
+            }
+
+            const isiOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+            const fileName = `미드나잇_정산판_${new Date().toISOString().slice(0, 10)}.png`;
+
+            if (isiOS) {
+              // 아이폰 Safari 대응: Blob을 DataURL로 전환하여 이미지 팝업으로 오픈
+              const reader = new FileReader();
+              reader.readAsDataURL(blob);
+              reader.onloadend = () => {
+                const base64data = reader.result;
+                const newWindow = window.open();
+                if (newWindow) {
+                  newWindow.document.write(`
+                    <!DOCTYPE html>
+                    <html>
+                      <head>
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                        <title>정산판 저장하기</title>
+                        <style>
+                          body { margin:0; background:#020617; display:flex; flex-direction:column; align-items:center; justify-center; min-height:100vh; color:#fff; font-family:sans-serif; padding:16px; box-sizing:border-box; }
+                          p { font-size:14px; margin-bottom:12px; color:#38bdf8; font-weight:bold; text-align:center; }
+                          img { max-width:100%; height:auto; border-radius:8px; box-shadow:0 10px 25px rgba(0,0,0,0.5); }
+                        </style>
+                      </head>
+                      <body>
+                        <p>💡 이미지를 꾹 누른 뒤 '사진에 추가'를 눌러 저장하세요!</p>
+                        <img src="${base64data}" alt="미드나잇 정산판"/>
+                      </body>
+                    </html>
+                  `);
+                  newWindow.document.close();
+                } else {
+                  alert("팝업이 차단되었습니다. 팝업 허용 후 다시 시도해 주세요.");
+                }
+                setIsSaving(false);
+              };
+            } else {
+              // PC 및 일반 Android 처리
+              const link = document.createElement('a');
+              link.download = fileName;
+              link.href = URL.createObjectURL(blob);
+              link.click();
+              URL.revokeObjectURL(link.href);
+              setIsSaving(false);
+            }
+          }, 'image/png');
         }).catch(err => {
           console.error("이미지 저장 실패:", err);
           alert("이미지 저장 중 오류가 발생했습니다.");
+          setIsSaving(false);
         });
       };
 
@@ -706,9 +753,9 @@
             <div className="space-y-0.5"><h3 className="text-[7.5px] font-bold text-slate-400 uppercase tracking-wider border-b border-slate-800 pb-0.5">PIANIST</h3><div className="grid grid-cols-3 gap-1">{CAST_DATA.pianist.map((actor) => <ActorCard actor={actor} compact={true} key={actor.name} totalScheduleCount={getActorTotalScheduleCount(actor.name)} userCount={getActorUserCount(actor.name)}/>)}</div></div>
 
             <div className="pt-2 flex justify-end">
-              <button onClick={handleDownloadCard} className="flex items-center gap-1 bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-[9px] px-2.5 py-1.5 rounded-lg shadow-md transition active:scale-95">
+              <button onClick={handleDownloadCard} disabled={isSaving} className="flex items-center gap-1 bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-[9px] px-2.5 py-1.5 rounded-lg shadow-md transition active:scale-95 disabled:opacity-50">
                 <Download className="w-3 h-3"/>
-                <span> 정산판 저장 </span>
+                <span>{isSaving ? '이미지 생성 중...' : '정산판 저장'}</span>
               </button>
             </div>
           </section>
@@ -754,14 +801,9 @@
           <div className="fixed pointer-events-none -z-50 opacity-0 overflow-hidden" style={{ top: 0, left: 0 }}>
             <div ref={captureRef} className="w-[1000px] h-[1250px] bg-slate-950 text-white p-8 flex flex-col justify-between font-serif relative overflow-hidden">
               
-              {/* 배경 아트워크 SVG */}
+              {/* 배경 아트워크 SVG (음표 제거됨) */}
               <div className="absolute inset-0 pointer-events-none z-0 opacity-40 overflow-hidden flex justify-center items-center">
                 <svg className="w-full h-full" viewBox="0 0 1000 1250" preserveAspectRatio="xMidYMid slice" fill="none" stroke="currentColor" strokeWidth="1.2">
-                  <g stroke="#06b6d4" opacity="0.6">
-                    <path d="M110 180 A14 14 0 1 1 85 205 L85 120 L135 105 L135 130 L85 145" strokeWidth="1.5" />
-                    <path d="M840 220 A14 14 0 1 1 815 245 L815 160 L865 145 L865 170 L815 185" strokeWidth="1.5" />
-                    <path d="M680 950 A14 14 0 1 1 655 975 L655 890 L705 875 L705 900 L655 915" strokeWidth="1.5" opacity="0.7" />
-                  </g>
                   <g stroke="#06b6d4" opacity="0.5">
                     <path d="M180 850 L260 770 M195 835 C170 820 150 840 140 870 C130 900 150 930 180 930 C210 930 230 900 220 870 C210 840 210 850 195 835 Z" />
                     <line x1="200" y1="820" x2="280" y2="740" strokeWidth="2" />
