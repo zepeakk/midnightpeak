@@ -90,7 +90,8 @@
     const X = ({ className }) => <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18" strokeWidth="2"></line><line x1="6" y1="6" x2="18" y2="18" strokeWidth="2"></line></svg>;
     const Download = ({ className }) => <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" strokeWidth="2"></path><polyline points="7 10 12 15 17 10" strokeWidth="2"></polyline><line x1="12" y1="15" x2="12" y2="3" strokeWidth="2"></line></svg>;
 
-    const PARK_SEULGI_SCHEDULES = [
+    // CHOICE 시즌 스케줄
+    const CHOICE_SCHEDULES = [
       { id: 'aug-12-2000', date: '2026-08-12', day: '수', time: '20:00', visitor: '박슬기', man: '한재원', woman: '이상아', p1: '김솔', p2: '김소현', p3: '박영훈', p4: '신은규', pianist: '임지은', event: '첫공' },
       { id: 'aug-13-2000', date: '2026-08-13', day: '목', time: '20:00', visitor: '박슬기', man: '김태형', woman: '서채이', p1: '양정현', p2: '정우림', p3: '강현동', p4: '김준', pianist: '전현우', event: '커튼콜' },
       { id: 'aug-17-1400', date: '2026-08-17', day: '월', time: '14:00', visitor: '박슬기', man: '김태형', woman: '박혜민', p1: '양정현', p2: '정우림', p3: '강현동', p4: '김준', pianist: '조재철', event: '커튼콜' },
@@ -120,8 +121,73 @@
       { id: 'oct-11-1800', date: '2026-10-11', day: '일', time: '18:00', visitor: '박슬기', man: '김태형', woman: '박혜민', p1: '김솔', p2: '정우림', p3: '박영훈', p4: '김준', pianist: '임지은', event: '막공' },
     ];
 
-    const PAIR_PHOTOS = [
-      ...PARK_SEULGI_SCHEDULES.map((s, idx) => {
+    // FINAL 시즌 (2027년 1월 5일 ~ 1월 31일) 스케줄 예시 데이터
+    const FINAL_SCHEDULES = [
+      { id: 'jan-05-2000', date: '2027-01-05', day: '화', time: '20:00', visitor: '박슬기', man: '미정', woman: '미정', p1: '미정', p2: '미정', p3: '미정', p4: '미정', pianist: '미정', event: '첫공' },
+    ];
+
+    const CHOICE_CAST_DATA = {
+      visitor: { name: '박슬기', role: '비지터', images: ['sk1.png', 'sk2.png'] },
+      man: [
+        { name: '김태형', role: '맨', image: 'man1.png' },
+        { name: '조현우', role: '맨', image: 'man2.png' },
+        { name: '한재원', role: '맨', image: 'man3.png' },
+      ],
+      woman: [
+        { name: '박혜민', role: '우먼', image: 'woman1.png' },
+        { name: '서채이', role: '우먼', image: 'woman2.png' },
+        { name: '이상아', role: '우먼', image: 'woman3.png' },
+      ],
+      player1: [
+        { name: '김솔', role: '플레이어1', image: 'p1.png' },
+        { name: '양정현', role: '플레이어1', image: 'p2.png' },
+      ],
+      player2: [
+        { name: '김소현', role: '플레이어2', image: 'p3.png' },
+        { name: '정우림', role: '플레이어2', image: 'p4.png' },
+      ],
+      player3: [
+        { name: '강현동', role: '플레이어3', image: 'p5.png' },
+        { name: '박영훈', role: '플레이어3', image: 'p6.png' },
+      ],
+      player4: [
+        { name: '김준', role: '플레이어4', image: 'p7.png' },
+        { name: '신은규', role: '플레이어4', image: 'p8.png' },
+      ],
+      pianist: [
+        { name: '임지은', role: '피아니스트', image: 'p9.png' },
+        { name: '전현우', role: '피아니스트', image: 'p10.png' },
+        { name: '조재철', role: '피아니스트', image: 'p11.png' },
+      ],
+    };
+
+    const FINAL_CAST_DATA = {
+      visitor: { name: '박슬기', role: '비지터', images: ['sk1.png', 'sk2.png'] },
+      man: [
+        { name: '미정', role: '맨', image: '' },
+      ],
+      woman: [
+        { name: '미정', role: '우먼', image: '' },
+      ],
+      player1: [
+        { name: '미정', role: '플레이어1', image: '' },
+      ],
+      player2: [
+        { name: '미정', role: '플레이어2', image: '' },
+      ],
+      player3: [
+        { name: '미정', role: '플레이어3', image: '' },
+      ],
+      player4: [
+        { name: '미정', role: '플레이어4', image: '' },
+      ],
+      pianist: [
+        { name: '미정', role: '피아니스트', image: '' },
+      ],
+    };
+
+    const CHOICE_PAIR_PHOTOS = [
+      ...CHOICE_SCHEDULES.map((s, idx) => {
         let customImg = null;
         let customUrl = null;
 
@@ -161,24 +227,50 @@
         };
       }),
       {
-        id: PARK_SEULGI_SCHEDULES.length + 1,
+        id: CHOICE_SCHEDULES.length + 1,
         date: '디어 각하 마테 영상',
         image: 'dear.jpeg',
         url: 'https://x.com/Midnight_M2017/status/2102963739498574328?s=20'
       },
       {
-        id: PARK_SEULGI_SCHEDULES.length + 2,
+        id: CHOICE_SCHEDULES.length + 2,
         date: '할당량 되실 분?',
         image: 'knife.jpeg',
         url: 'https://x.com/Midnight_M2017/status/2109116789246529989?s=20'
       },
       {
-        id: PARK_SEULGI_SCHEDULES.length + 3,
+        id: CHOICE_SCHEDULES.length + 3,
         date: '굿바이 메세지',
         image: 'goodbye.jpeg',
         url: 'https://x.com/Midnight_M2017/status/2108769495380574215?s=20'
       }
     ];
+
+    const FINAL_PAIR_PHOTOS = [
+      ...FINAL_SCHEDULES.map((s, idx) => ({
+        id: idx + 1,
+        date: `${s.date} (${s.time})`,
+        image: null,
+        url: null
+      }))
+    ];
+
+    const SEASON_DATA = {
+      CHOICE: {
+        title: 'THE CHOICE',
+        period: '2026.08.11. ~ 2026.10.11',
+        schedules: CHOICE_SCHEDULES,
+        castData: CHOICE_CAST_DATA,
+        pairPhotos: CHOICE_PAIR_PHOTOS
+      },
+      FINAL: {
+        title: 'THE FINAL',
+        period: '2027.01.05. ~ 2027.01.31',
+        schedules: FINAL_SCHEDULES,
+        castData: FINAL_CAST_DATA,
+        pairPhotos: FINAL_PAIR_PHOTOS
+      }
+    };
 
     const DISCOUNT_TYPES = [
       { name: '일반 (정가)', amount: 70000 },
@@ -212,41 +304,6 @@
       { row: 13, startNum: 1, total: 12, tlStart: 0, tlEnd: -1 },
       { row: 14, startNum: 1, total: 10, tlStart: 0, tlEnd: -1 },
     ];
-
-    const CAST_DATA = {
-      visitor: { name: '박슬기', role: '비지터', images: ['sk1.png', 'sk2.png'] },
-      man: [
-        { name: '김태형', role: '맨', image: 'man1.png' },
-        { name: '조현우', role: '맨', image: 'man2.png' },
-        { name: '한재원', role: '맨', image: 'man3.png' },
-      ],
-      woman: [
-        { name: '박혜민', role: '우먼', image: 'woman1.png' },
-        { name: '서채이', role: '우먼', image: 'woman2.png' },
-        { name: '이상아', role: '우먼', image: 'woman3.png' },
-      ],
-      player1: [
-        { name: '김솔', role: '플레이어1', image: 'p1.png' },
-        { name: '양정현', role: '플레이어1', image: 'p2.png' },
-      ],
-      player2: [
-        { name: '김소현', role: '플레이어2', image: 'p3.png' },
-        { name: '정우림', role: '플레이어2', image: 'p4.png' },
-      ],
-      player3: [
-        { name: '강현동', role: '플레이어3', image: 'p5.png' },
-        { name: '박영훈', role: '플레이어3', image: 'p6.png' },
-      ],
-      player4: [
-        { name: '김준', role: '플레이어4', image: 'p7.png' },
-        { name: '신은규', role: '플레이어4', image: 'p8.png' },
-      ],
-      pianist: [
-        { name: '임지은', role: '피아니스트', image: 'p9.png' },
-        { name: '전현우', role: '피아니스트', image: 'p10.png' },
-        { name: '조재철', role: '피아니스트', image: 'p11.png' },
-      ],
-    };
 
     function ActorCard({ actor, isMain = false, userCount = 0, totalScheduleCount = 0, compact = false, mini = false, size = 'normal', showText = true }) {
       const [imgIndex, setImgIndex] = React.useState(0);
@@ -456,7 +513,9 @@
     }
 
     function App() {
-      const [isScheduleOpen, setIsScheduleOpen] = React.useState(false);
+      const [currentSeason, setCurrentSeason] = React.useState('CHOICE');
+      // 🌟 사이트 접속 시 스케줄 영역이 펼쳐지도록 기본값을 true로 수정
+      const [isScheduleOpen, setIsScheduleOpen] = React.useState(true);
       const [isRecordsOpen, setIsRecordsOpen] = React.useState(true);
       const [isPhotosOpen, setIsPhotosOpen] = React.useState(false);
       const [activeModal, setActiveModal] = React.useState(null);
@@ -469,6 +528,8 @@
       
       const captureRef = React.useRef(null);
 
+      const activeSeasonConfig = SEASON_DATA[currentSeason];
+
       const [savedRecords, setSavedRecords] = React.useState(() => {
         const saved = localStorage.getItem('midnightRecords');
         return saved ? JSON.parse(saved) : [];
@@ -478,25 +539,42 @@
         localStorage.setItem('midnightRecords', JSON.stringify(savedRecords));
       }, [savedRecords]);
 
+      // 시즌 변경 시 선택 스케줄 초기화
+      const handleSeasonChange = (seasonKey) => {
+        setCurrentSeason(seasonKey);
+        setSelectedSchedule(null);
+      };
+
       const FEE = 2000;
       const ticketPrice = selectedDiscount.isCustom ? (Number(customAmount) || 0) : selectedDiscount.amount;
       const finalPrice = ticketPrice + FEE;
 
       const handleSeatClick = (row, num, vendor) => setSelectedSeat({ row, num, vendor });
-      const getSeatVisitCount = (row, num) => savedRecords.filter(r => r.seat.row === row && r.seat.num === num && r.type !== '양도').length;
+      const getSeatVisitCount = (row, num) => savedRecords.filter(r => r.season === currentSeason && r.seat.row === row && r.seat.num === num && r.type !== '양도').length;
       
       const handleSaveRecord = () => {
         if (!selectedSchedule || !selectedSeat) return;
         const discountData = selectedDiscount.isCustom ? { name: `직접 입력 (${ticketPrice.toLocaleString()}원)`, amount: ticketPrice } : selectedDiscount;
-        const newRecord = { id: Date.now(), schedule: selectedSchedule, seat: selectedSeat, discount: discountData, totalPrice: finalPrice, type: selectedType };
+        const newRecord = { 
+          id: Date.now(), 
+          season: currentSeason,
+          schedule: selectedSchedule, 
+          seat: selectedSeat, 
+          discount: discountData, 
+          totalPrice: finalPrice, 
+          type: selectedType 
+        };
         setSavedRecords([newRecord, ...savedRecords]);
       };
 
       const handleDeleteRecord = (id) => setSavedRecords(savedRecords.filter(r => r.id !== id));
-      const activeRecords = savedRecords.filter(r => r.type !== '양도');
+      
+      // 현재 시즌에 해당되는 관극 기록 필터링
+      const seasonSavedRecords = savedRecords.filter(r => (r.season || 'CHOICE') === currentSeason);
+      const activeRecords = seasonSavedRecords.filter(r => r.type !== '양도');
       const grandTotal = activeRecords.reduce((acc, cur) => acc + cur.totalPrice, 0);
 
-      const sortedRecords = [...savedRecords].sort((a, b) => {
+      const sortedRecords = [...seasonSavedRecords].sort((a, b) => {
         const dateTimeA = `${a.schedule.date} ${a.schedule.time}`;
         const dateTimeB = `${b.schedule.date} ${b.schedule.time}`;
         return dateTimeA.localeCompare(dateTimeB);
@@ -515,14 +593,14 @@
       };
 
       // 배우별 스케줄 기준 전체 횟수 계산
-      const getActorTotalScheduleCount = (actorName) => PARK_SEULGI_SCHEDULES.filter(s => s.visitor === actorName || s.man === actorName || s.woman === actorName || s.p1 === actorName || s.p2 === actorName || s.p3 === actorName || s.p4 === actorName || s.pianist === actorName).length;
+      const getActorTotalScheduleCount = (actorName) => activeSeasonConfig.schedules.filter(s => s.visitor === actorName || s.man === actorName || s.woman === actorName || s.p1 === actorName || s.p2 === actorName || s.p3 === actorName || s.p4 === actorName || s.pianist === actorName).length;
 
       const isPastSchedule = (dateStr, timeStr) => {
         const scheduleDateTime = new Date(`${dateStr}T${timeStr}:00`);
         return scheduleDateTime < new Date();
       };
 
-      // 📱 아이폰16 및 모바일 Safari 이미지 저장 처리 개선 함수
+      // 📱 이미지 저장 처리 함수
       const handleDownloadCard = () => {
         if (!captureRef.current || isSaving) return;
         setIsSaving(true);
@@ -541,10 +619,9 @@
             }
 
             const isiOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-            const fileName = `미드나잇_정산판_${new Date().toISOString().slice(0, 10)}.png`;
+            const fileName = `미드나잇_${currentSeason}_정산판_${new Date().toISOString().slice(0, 10)}.png`;
 
             if (isiOS) {
-              // 아이폰 Safari 대응: Blob을 DataURL로 전환하여 이미지 팝업으로 오픈
               const reader = new FileReader();
               reader.readAsDataURL(blob);
               reader.onloadend = () => {
@@ -576,7 +653,6 @@
                 setIsSaving(false);
               };
             } else {
-              // PC 및 일반 Android 처리
               const link = document.createElement('a');
               link.download = fileName;
               link.href = URL.createObjectURL(blob);
@@ -597,23 +673,43 @@
           {activeModal && <EventModal type={activeModal} onClose={() => setActiveModal(null)} />}
 
           {/* 타이틀 헤더 */}
-          <header className="text-center py-2 space-y-1 border-b border-slate-800 flex flex-col items-center">
-            <img src="rogo.png" alt="logo" className="w-56 h-auto mx-auto mb-1.5 object-contain" />
+          <header className="text-center py-2 space-y-1.5 border-b border-slate-800 flex flex-col items-center">
+            <img src="rogo.png" alt="logo" className="w-56 h-auto mx-auto mb-1 object-contain" />
             <p className="text-[10px] tracking-widest text-slate-400 font-semibold uppercase">A Debunk Theatre Production</p>
             <h1 className="text-base font-bold text-cyan-400">뮤지컬 미드나잇:액터뮤지션</h1>
             <p className="text-[10px] text-slate-300 font-medium">박슬기 배우 기준 정산판</p>
-            <p className="text-[9px] text-slate-500 pt-0.5">문의 시 @hillpeakk 로 연락 주세요.</p>
+            
+            {/* 🌟 시즌 선택 스위처 버튼 */}
+            <div className="flex bg-slate-900 border border-slate-800 p-1 rounded-xl gap-1 mt-1 w-full max-w-[260px]">
+              <button 
+                onClick={() => handleSeasonChange('CHOICE')}
+                className={`flex-1 py-1.5 rounded-lg text-[11px] font-extrabold transition ${currentSeason === 'CHOICE' ? 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'}`}
+              >
+                THE CHOICE
+              </button>
+              <button 
+                onClick={() => handleSeasonChange('FINAL')}
+                className={`flex-1 py-1.5 rounded-lg text-[11px] font-extrabold transition ${currentSeason === 'FINAL' ? 'bg-gradient-to-r from-amber-600 to-rose-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'}`}
+              >
+                THE FINAL
+              </button>
+            </div>
+
+            {/* 🌟 트위터 문의 링크 연동 수정 */}
+            <p className="text-[9px] text-slate-500 pt-0.5">
+              문의 시 <a href="https://x.com/hillpeakk?s=20" target="_blank" rel="noreferrer" className="text-cyan-400 hover:underline font-bold">@hillpeakk</a> 로 연락 주세요.
+            </p>
           </header>
 
           {/* 1. 스케줄 영역 */}
           <section className="bg-slate-900/90 rounded-2xl border border-slate-800 overflow-hidden backdrop-blur-sm">
             <button onClick={() => setIsScheduleOpen(!isScheduleOpen)} className="w-full p-2.5 flex justify-between items-center bg-slate-900/90">
-              <div className="flex items-center gap-1.5 text-xs font-bold text-cyan-400"><Calendar className="w-3.5 h-3.5"/><span>스케줄 (이벤트)</span></div>
+              <div className="flex items-center gap-1.5 text-xs font-bold text-cyan-400"><Calendar className="w-3.5 h-3.5"/><span>스케줄 ({activeSeasonConfig.title})</span></div>
               <div className="flex items-center gap-1 text-[10px] text-slate-400"><span>{isScheduleOpen ? '접기' : '펼치기'}</span>{isScheduleOpen ? <ChevronUp className="w-3.5 h-3.5"/> : <ChevronDown className="w-3.5 h-3.5"/>}</div>
             </button>
             {isScheduleOpen && (
               <div className="p-2 border-t border-slate-800 space-y-1.5 max-h-[260px] overflow-y-auto no-scrollbar bg-slate-950/50">
-                {PARK_SEULGI_SCHEDULES.map((item) => {
+                {activeSeasonConfig.schedules.map((item) => {
                   const isSelected = selectedSchedule?.id === item.id;
                   const isPast = isPastSchedule(item.date, item.time);
                   return (
@@ -693,7 +789,7 @@
 
           {/* 3. 예매 및 정산 계산기 */}
           <section className="bg-slate-900/90 p-3.5 rounded-2xl border border-slate-800 space-y-3 backdrop-blur-sm">
-            <h2 className="text-xs font-bold flex items-center gap-1 text-cyan-400"><Calculator className="w-3.5 h-3.5"/> 3. 예매 정보 및 정산</h2>
+            <h2 className="text-xs font-bold flex items-center gap-1 text-cyan-400"><Calculator className="w-3.5 h-3.5"/> 3. 예매 정보 및 정산 ({activeSeasonConfig.title})</h2>
             <div className="space-y-2 text-[11px] bg-slate-950/80 p-3 rounded-xl border border-slate-800">
               <div className="flex justify-between items-center border-b border-slate-800/80 pb-1.5"><span className="text-slate-400">관람 일시</span><span className="font-bold text-white">{selectedSchedule ? `${selectedSchedule.date.slice(5)} (${selectedSchedule.day}) ${selectedSchedule.time}` : '스케줄 선택'}</span></div>
               <div className="flex justify-between items-center border-b border-slate-800/80 pb-1.5"><span className="text-slate-400">선택 좌석</span><span className="font-bold text-cyan-300">{selectedSeat ? `${selectedSeat.row}열 ${selectedSeat.num}번 (${selectedSeat.vendor})` : '좌석 선택'}</span></div>
@@ -701,8 +797,9 @@
               <div className="space-y-1.5"><label className="text-slate-400 block text-[10px]">할인 권종 선택</label><select value={selectedDiscount.name} onChange={(e) => setSelectedDiscount(DISCOUNT_TYPES.find(d => d.name === e.target.value))} className="w-full bg-slate-900 border border-slate-700 text-white rounded-lg p-1.5 text-[10px] focus:outline-none focus:border-cyan-500">{DISCOUNT_TYPES.map((d) => <option key={d.name} value={d.name}>{d.isCustom ? d.name : `${d.name} (${d.amount.toLocaleString()}원)`}</option>)}</select>{selectedDiscount.isCustom && (<div className="flex items-center gap-1.5 pt-1"><input type="number" placeholder="금액 입력" value={customAmount} onChange={(e) => setCustomAmount(e.target.value)} className="w-full bg-slate-900 border border-cyan-500/80 text-amber-300 font-bold rounded-lg p-1.5 text-[10px] focus:outline-none"/><span className="text-[10px] text-slate-400 flex-shrink-0">원</span></div>)}</div>
               <div className="pt-2 border-t border-slate-800 flex justify-between items-center"><div><span className="text-slate-300 font-bold block">최종 결제액</span><span className="text-[9px] text-slate-500">(수수료 2,000원 포함)</span></div><span className="text-base font-bold text-amber-400">{finalPrice.toLocaleString()}원</span></div>
               
+              {/* 🌟 문구 수정: 정산판 저장 -> png 저장 */}
               <button onClick={handleSaveRecord} disabled={!selectedSchedule || !selectedSeat} className={`w-full mt-2 font-bold py-2 rounded-lg text-xs shadow-md transition ${selectedSchedule && selectedSeat ? 'bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white cursor-pointer active:scale-98' : 'bg-slate-800 text-slate-500 cursor-not-allowed'}`}>
-                정산판 저장 
+                png 저장
               </button>
             </div>
           </section>
@@ -710,12 +807,12 @@
           {/* 4. 총 관극 정산 */}
           <section className="bg-slate-900/90 rounded-2xl border border-slate-800 overflow-hidden backdrop-blur-sm">
             <button onClick={() => setIsRecordsOpen(!isRecordsOpen)} className="w-full p-3 flex justify-between items-center bg-slate-900/90">
-              <div className="flex items-center gap-1.5 text-xs font-bold text-cyan-400"><Receipt className="w-3.5 h-3.5"/><span>4. 총 관극 정산 (누적 {activeRecords.length}회)</span></div>
+              <div className="flex items-center gap-1.5 text-xs font-bold text-cyan-400"><Receipt className="w-3.5 h-3.5"/><span>4. 총 관극 정산 [{activeSeasonConfig.title}] (누적 {activeRecords.length}회)</span></div>
               <div className="flex items-center gap-1 text-[10px] text-slate-400"><span>{isRecordsOpen ? '접기' : '펼치기'}</span>{isRecordsOpen ? <ChevronUp className="w-3.5 h-3.5"/> : <ChevronDown className="w-3.5 h-3.5"/>}</div>
             </button>
             {isRecordsOpen && (
               <div className="p-2.5 border-t border-slate-800 space-y-2 bg-slate-950/50">
-                {savedRecords.length === 0 ? <p className="text-[10px] text-slate-500 text-center py-3">저장된 내역이 없습니다.</p> : (
+                {seasonSavedRecords.length === 0 ? <p className="text-[10px] text-slate-500 text-center py-3">저장된 내역이 없습니다.</p> : (
                   <div className="space-y-1.5">
                     <div className="space-y-1 max-h-[260px] overflow-y-auto no-scrollbar">
                       {sortedRecords.map((rec) => {
@@ -750,34 +847,35 @@
           {/* 5. CAST BOARD */}
           <section className="relative space-y-2 pt-2 bg-slate-900/90 p-3 rounded-2xl border border-slate-800 backdrop-blur-sm">
             <div className="text-center">
-              <h2 className="text-xs font-bold text-white uppercase tracking-wider">CAST BOARD</h2>
+              <h2 className="text-xs font-bold text-white uppercase tracking-wider">CAST BOARD ({activeSeasonConfig.title})</h2>
               <p className="text-[8px] text-cyan-400 font-semibold pt-0.5">관람 횟수 / 스케줄 기준 전체 횟수</p>
             </div>
             
             <div className="w-36 mx-auto">
               <div className="text-[8px] text-slate-500 text-center font-bold tracking-wider -mb-0.5">VISITOR</div>
-              <ActorCard actor={CAST_DATA.visitor} compact={true} isMain={true} totalScheduleCount={getActorTotalScheduleCount(CAST_DATA.visitor.name)} userCount={getActorUserCount(CAST_DATA.visitor.name)}/>
+              <ActorCard actor={activeSeasonConfig.castData.visitor} compact={true} isMain={true} totalScheduleCount={getActorTotalScheduleCount(activeSeasonConfig.castData.visitor.name)} userCount={getActorUserCount(activeSeasonConfig.castData.visitor.name)}/>
             </div>
             
-            <div className="space-y-0.5"><h3 className="text-[7.5px] font-bold text-slate-400 uppercase tracking-wider border-b border-slate-800 pb-0.5">MAN</h3><div className="grid grid-cols-3 gap-1">{CAST_DATA.man.map((actor) => <ActorCard actor={actor} compact={true} key={actor.name} totalScheduleCount={getActorTotalScheduleCount(actor.name)} userCount={getActorUserCount(actor.name)}/>)}</div></div>
+            <div className="space-y-0.5"><h3 className="text-[7.5px] font-bold text-slate-400 uppercase tracking-wider border-b border-slate-800 pb-0.5">MAN</h3><div className="grid grid-cols-3 gap-1">{activeSeasonConfig.castData.man.map((actor) => <ActorCard actor={actor} compact={true} key={actor.name} totalScheduleCount={getActorTotalScheduleCount(actor.name)} userCount={getActorUserCount(actor.name)}/>)}</div></div>
             
-            <div className="space-y-0.5"><h3 className="text-[7.5px] font-bold text-slate-400 uppercase tracking-wider border-b border-slate-800 pb-0.5">WOMAN</h3><div className="grid grid-cols-3 gap-1">{CAST_DATA.woman.map((actor) => <ActorCard actor={actor} compact={true} key={actor.name} totalScheduleCount={getActorTotalScheduleCount(actor.name)} userCount={getActorUserCount(actor.name)}/>)}</div></div>
+            <div className="space-y-0.5"><h3 className="text-[7.5px] font-bold text-slate-400 uppercase tracking-wider border-b border-slate-800 pb-0.5">WOMAN</h3><div className="grid grid-cols-3 gap-1">{activeSeasonConfig.castData.woman.map((actor) => <ActorCard actor={actor} compact={true} key={actor.name} totalScheduleCount={getActorTotalScheduleCount(actor.name)} userCount={getActorUserCount(actor.name)}/>)}</div></div>
             
             <div className="space-y-0.5"><h3 className="text-[7.5px] font-bold text-slate-400 uppercase tracking-wider border-b border-slate-800 pb-0.5">PLAYERS</h3>
               <div className="space-y-1">
-                <div><span className="text-[6.5px] text-cyan-400 font-bold block">PLAYER 1</span><div className="grid grid-cols-2 gap-1">{CAST_DATA.player1.map((actor) => <ActorCard actor={actor} compact={true} key={actor.name} totalScheduleCount={getActorTotalScheduleCount(actor.name)} userCount={getActorUserCount(actor.name)}/>)}</div></div>
-                <div><span className="text-[6.5px] text-cyan-400 font-bold block">PLAYER 2</span><div className="grid grid-cols-2 gap-1">{CAST_DATA.player2.map((actor) => <ActorCard actor={actor} compact={true} key={actor.name} totalScheduleCount={getActorTotalScheduleCount(actor.name)} userCount={getActorUserCount(actor.name)}/>)}</div></div>
-                <div><span className="text-[6.5px] text-cyan-400 font-bold block">PLAYER 3</span><div className="grid grid-cols-2 gap-1">{CAST_DATA.player3.map((actor) => <ActorCard actor={actor} compact={true} key={actor.name} totalScheduleCount={getActorTotalScheduleCount(actor.name)} userCount={getActorUserCount(actor.name)}/>)}</div></div>
-                <div><span className="text-[6.5px] text-cyan-400 font-bold block">PLAYER 4</span><div className="grid grid-cols-2 gap-1">{CAST_DATA.player4.map((actor) => <ActorCard actor={actor} compact={true} key={actor.name} totalScheduleCount={getActorTotalScheduleCount(actor.name)} userCount={getActorUserCount(actor.name)}/>)}</div></div>
+                <div><span className="text-[6.5px] text-cyan-400 font-bold block">PLAYER 1</span><div className="grid grid-cols-2 gap-1">{activeSeasonConfig.castData.player1.map((actor) => <ActorCard actor={actor} compact={true} key={actor.name} totalScheduleCount={getActorTotalScheduleCount(actor.name)} userCount={getActorUserCount(actor.name)}/>)}</div></div>
+                <div><span className="text-[6.5px] text-cyan-400 font-bold block">PLAYER 2</span><div className="grid grid-cols-2 gap-1">{activeSeasonConfig.castData.player2.map((actor) => <ActorCard actor={actor} compact={true} key={actor.name} totalScheduleCount={getActorTotalScheduleCount(actor.name)} userCount={getActorUserCount(actor.name)}/>)}</div></div>
+                <div><span className="text-[6.5px] text-cyan-400 font-bold block">PLAYER 3</span><div className="grid grid-cols-2 gap-1">{activeSeasonConfig.castData.player3.map((actor) => <ActorCard actor={actor} compact={true} key={actor.name} totalScheduleCount={getActorTotalScheduleCount(actor.name)} userCount={getActorUserCount(actor.name)}/>)}</div></div>
+                <div><span className="text-[6.5px] text-cyan-400 font-bold block">PLAYER 4</span><div className="grid grid-cols-2 gap-1">{activeSeasonConfig.castData.player4.map((actor) => <ActorCard actor={actor} compact={true} key={actor.name} totalScheduleCount={getActorTotalScheduleCount(actor.name)} userCount={getActorUserCount(actor.name)}/>)}</div></div>
               </div>
             </div>
             
-            <div className="space-y-0.5"><h3 className="text-[7.5px] font-bold text-slate-400 uppercase tracking-wider border-b border-slate-800 pb-0.5">PIANIST</h3><div className="grid grid-cols-3 gap-1">{CAST_DATA.pianist.map((actor) => <ActorCard actor={actor} compact={true} key={actor.name} totalScheduleCount={getActorTotalScheduleCount(actor.name)} userCount={getActorUserCount(actor.name)}/>)}</div></div>
+            <div className="space-y-0.5"><h3 className="text-[7.5px] font-bold text-slate-400 uppercase tracking-wider border-b border-slate-800 pb-0.5">PIANIST</h3><div className="grid grid-cols-3 gap-1">{activeSeasonConfig.castData.pianist.map((actor) => <ActorCard actor={actor} compact={true} key={actor.name} totalScheduleCount={getActorTotalScheduleCount(actor.name)} userCount={getActorUserCount(actor.name)}/>)}</div></div>
 
+            {/* 🌟 문구 수정: 정산판 저장 -> png 저장 */}
             <div className="pt-2 flex justify-end">
               <button onClick={handleDownloadCard} disabled={isSaving} className="flex items-center gap-1 bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-[9px] px-2.5 py-1.5 rounded-lg shadow-md transition active:scale-95 disabled:opacity-50">
                 <Download className="w-3 h-3"/>
-                <span>{isSaving ? '이미지 생성 중...' : '정산판 저장'}</span>
+                <span>{isSaving ? '이미지 생성 중...' : 'png 저장'}</span>
               </button>
             </div>
           </section>
@@ -787,14 +885,14 @@
             <button onClick={() => setIsPhotosOpen(!isPhotosOpen)} className="w-full p-3 flex justify-between items-center bg-slate-900/90">
               <div className="flex items-center gap-1.5 text-xs font-bold text-cyan-400">
                 <Camera className="w-3.5 h-3.5"/>
-                <span>&lt;페어별 단체사진&gt;</span>
-                <span className="text-[8px] text-slate-500 font-normal ml-0.5">({PAIR_PHOTOS.filter(p => p.image).length}/{PAIR_PHOTOS.length})</span>
+                <span>&lt;페어별 단체사진 ({activeSeasonConfig.title})&gt;</span>
+                <span className="text-[8px] text-slate-500 font-normal ml-0.5">({activeSeasonConfig.pairPhotos.filter(p => p.image).length}/{activeSeasonConfig.pairPhotos.length})</span>
               </div>
               <div className="flex items-center gap-1 text-[10px] text-slate-400"><span>{isPhotosOpen ? '접기' : '펼치기'}</span>{isPhotosOpen ? <ChevronUp className="w-3.5 h-3.5"/> : <ChevronDown className="w-3.5 h-3.5"/>}</div>
             </button>
             {isPhotosOpen && (
               <div className="p-3 border-t border-slate-800 space-y-3 bg-slate-950/50 max-h-[400px] overflow-y-auto no-scrollbar">
-                {PAIR_PHOTOS.map((photo) => (
+                {activeSeasonConfig.pairPhotos.map((photo) => (
                   <div key={photo.id} className="bg-slate-900/90 border border-slate-800 rounded-xl overflow-hidden p-2 space-y-1.5">
                     <div className="text-[10px] text-slate-300 font-bold border-b border-slate-800 pb-1 flex justify-between items-center">
                       <span>{photo.date}</span>
@@ -874,8 +972,10 @@
                     </div>
                     <div className="flex flex-col items-center">
                       <div className="flex gap-3">
-                        <ActorCard actor={{ name: '박슬기', image: CAST_DATA.visitor.images[0] }} mini={true} size="visitor" showText={false}/>
-                        <ActorCard actor={{ name: '박슬기', image: CAST_DATA.visitor.images[1] }} mini={true} size="visitor" showText={false}/>
+                        <ActorCard actor={{ name: '박슬기', image: activeSeasonConfig.castData.visitor.images ? activeSeasonConfig.castData.visitor.images[0] : activeSeasonConfig.castData.visitor.image }} mini={true} size="visitor" showText={false}/>
+                        {activeSeasonConfig.castData.visitor.images && activeSeasonConfig.castData.visitor.images[1] && (
+                          <ActorCard actor={{ name: '박슬기', image: activeSeasonConfig.castData.visitor.images[1] }} mini={true} size="visitor" showText={false}/>
+                        )}
                       </div>
                       <div className="mt-1 flex flex-col items-center justify-center w-full px-0.5 text-center leading-normal">
                         <span className="font-bold text-slate-100 tracking-tight block w-full whitespace-nowrap overflow-visible text-[15px]">박슬기</span>
@@ -892,7 +992,7 @@
                       <span className="text-[12px] font-bold text-cyan-300 tracking-wider block">MAN</span>
                     </div>
                     <div className="flex gap-2.5">
-                      {CAST_DATA.man.map(a => <ActorCard actor={a} key={a.name} mini={true} size="large" totalScheduleCount={getActorTotalScheduleCount(a.name)} userCount={getActorUserCount(a.name)}/>)}
+                      {activeSeasonConfig.castData.man.map(a => <ActorCard actor={a} key={a.name} mini={true} size="large" totalScheduleCount={getActorTotalScheduleCount(a.name)} userCount={getActorUserCount(a.name)}/>)}
                     </div>
                   </div>
 
@@ -902,7 +1002,7 @@
                       <span className="text-[12px] font-bold text-cyan-300 tracking-wider block">WOMAN</span>
                     </div>
                     <div className="flex gap-2.5">
-                      {CAST_DATA.woman.map(a => <ActorCard actor={a} key={a.name} mini={true} size="large" totalScheduleCount={getActorTotalScheduleCount(a.name)} userCount={getActorUserCount(a.name)}/>)}
+                      {activeSeasonConfig.castData.woman.map(a => <ActorCard actor={a} key={a.name} mini={true} size="large" totalScheduleCount={getActorTotalScheduleCount(a.name)} userCount={getActorUserCount(a.name)}/>)}
                     </div>
                   </div>
 
@@ -912,16 +1012,16 @@
                       <span className="text-[12px] font-bold text-cyan-300 tracking-wider block">PLAYERS</span>
                     </div>
                     <div className="flex gap-2.5">
-                      {CAST_DATA.player1.map(a => <ActorCard actor={a} key={a.name} mini={true} totalScheduleCount={getActorTotalScheduleCount(a.name)} userCount={getActorUserCount(a.name)}/>)}
-                      {CAST_DATA.player2.map(a => <ActorCard actor={a} key={a.name} mini={true} totalScheduleCount={getActorTotalScheduleCount(a.name)} userCount={getActorUserCount(a.name)}/>)}
+                      {activeSeasonConfig.castData.player1.map(a => <ActorCard actor={a} key={a.name} mini={true} totalScheduleCount={getActorTotalScheduleCount(a.name)} userCount={getActorUserCount(a.name)}/>)}
+                      {activeSeasonConfig.castData.player2.map(a => <ActorCard actor={a} key={a.name} mini={true} totalScheduleCount={getActorTotalScheduleCount(a.name)} userCount={getActorUserCount(a.name)}/>)}
                     </div>
                   </div>
 
                   {/* 5. 플레이어 3, 4 */}
                   <div className="flex items-center gap-3 pl-[76px]">
                     <div className="flex gap-2.5">
-                      {CAST_DATA.player3.map(a => <ActorCard actor={a} key={a.name} mini={true} totalScheduleCount={getActorTotalScheduleCount(a.name)} userCount={getActorUserCount(a.name)}/>)}
-                      {CAST_DATA.player4.map(a => <ActorCard actor={a} key={a.name} mini={true} totalScheduleCount={getActorTotalScheduleCount(a.name)} userCount={getActorUserCount(a.name)}/>)}
+                      {activeSeasonConfig.castData.player3.map(a => <ActorCard actor={a} key={a.name} mini={true} totalScheduleCount={getActorTotalScheduleCount(a.name)} userCount={getActorUserCount(a.name)}/>)}
+                      {activeSeasonConfig.castData.player4.map(a => <ActorCard actor={a} key={a.name} mini={true} totalScheduleCount={getActorTotalScheduleCount(a.name)} userCount={getActorUserCount(a.name)}/>)}
                     </div>
                   </div>
 
@@ -934,9 +1034,9 @@
                   <div className="space-y-1.5 pt-1 text-left">
                     <img src="rogo.png" alt="logo" className="w-64 h-auto mb-2 object-contain justify-start" />
                     <h1 className="text-xl font-black text-cyan-400 tracking-wider">MUSICAL MIDNIGHT</h1>
-                    <p className="text-sm text-slate-200 font-bold">뮤지컬 미드나잇:액터뮤지션</p>
+                    <p className="text-sm text-slate-200 font-bold">뮤지컬 미드나잇:액터뮤지션 ({activeSeasonConfig.title})</p>
                     <p className="text-[11px] text-slate-300 font-medium leading-relaxed">
-                      2026.08.11. ~ 2026.10.11 (슭지터 막공기준)<br/>NOL 유니플렉스 3관
+                      {activeSeasonConfig.period}<br/>NOL 유니플렉스 3관
                     </p>
                   </div>
 
@@ -944,8 +1044,8 @@
                   <div className="text-right pr-2 space-y-0.5">
                     <span className="text-[10.5px] text-slate-400 font-bold block">총 관극 횟수 / 전체 스케줄</span>
                     <div className="flex items-baseline justify-end gap-1">
-                      <span className="text-3xl font-black text-amber-400">{getActorUserCount(CAST_DATA.visitor.name)}</span>
-                      <span className="text-lg font-bold text-slate-400">/ {getActorTotalScheduleCount(CAST_DATA.visitor.name)}</span>
+                      <span className="text-3xl font-black text-amber-400">{getActorUserCount(activeSeasonConfig.castData.visitor.name)}</span>
+                      <span className="text-lg font-bold text-slate-400">/ {getActorTotalScheduleCount(activeSeasonConfig.castData.visitor.name)}</span>
                     </div>
                   </div>
 
@@ -989,7 +1089,7 @@
                       <span className="text-[10.5px] font-bold text-cyan-300 tracking-wider block">PIANIST</span>
                     </div>
                     <div className="flex gap-2">
-                      {CAST_DATA.pianist.map(a => (
+                      {activeSeasonConfig.castData.pianist.map(a => (
                         <ActorCard actor={a} key={a.name} mini={true} totalScheduleCount={getActorTotalScheduleCount(a.name)} userCount={getActorUserCount(a.name)}/>
                       ))}
                     </div>
